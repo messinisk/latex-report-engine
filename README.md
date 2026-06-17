@@ -1,102 +1,243 @@
-# latex-report-engine
-A modular LaTeX reporting engine for data analysis workflows.
 
-## Installation & Usage Example
+# 📘 **latex-report-engine**  
+*A modular LaTeX reporting engine for data analysis workflows.*  
+**Μια modular μηχανή δημιουργίας LaTeX αναφορών για data analysis workflows.**
 
-<code> pip install git+https://github.com/messinisk/latex-report-engine.git </code>
-## System Requirements
-For latex-report-engine to compile to PDF, you need:
+---
 
-### 1. Python
-- Python 3.9+
+# 🇬🇧 **English Version**
 
-### 2. LaTeX Distribution (required for PDF output)
-A full LaTeX distribution must be installed, such as:
+## 📌 Overview  
+`latex-report-engine` is a modular Python engine that generates clean, reproducible LaTeX reports using templates for sections, figures, and tables.  
+It is designed for data analysts, data scientists, and automation pipelines that require PDF reporting without LaTeX boilerplate.
 
-- TeX Live (Linux, macOS, Windows)
+---
 
-- MiKTeX (Windows)
+## 🖥️ System Requirements
 
-- MacTeX (macOS)
+To compile reports into PDF, your system must have:
 
-The package uses XeLaTeX or LuaLaTeX, so they must be available in the PATH:
-- xelatex --version
-- lualatex --version
+### **Python**
+- Python **3.9+**
 
-### 3.Required LaTeX Packages
-The system must have the following LaTeX packages installed:
-- graphicx
+### **LaTeX Distribution (required for PDF output)**
+You must have a full LaTeX distribution installed:
 
-- booktabs
+- **TeX Live** (Linux, macOS, Windows)  
+- **MiKTeX** (Windows)  
+- **MacTeX** (macOS)
 
-- float
+The engine uses **XeLaTeX or LuaLaTeX**, so they must be available in your PATH:
 
-- geometry
+```bash
+xelatex --version
+lualatex --version
+```
 
-(Most distributions already have them pre-installed.)
+### **Required LaTeX Packages**
+Your LaTeX installation must include:
 
-## Example Usage
+- `graphicx`
+- `booktabs`
+- `float`
+- `geometry`
 
-- from report_engine.latex_builder import LatexReport
-- from report_engine.exporters import Exporter
+(Most distributions include them by default.)
 
-### 1. Create a new report
-- report = LatexReport(title="Sales Analysis Report")
+---
 
-### 2. Add a section
-- report.add_section(
+## 📦 Installation (pip)
+
+Install directly from GitHub:
+
+```bash
+pip install git+https://github.com/messinisk/latex-report-engine.git
+```
+
+This installs:
+
+- the `report_engine` Python module  
+- LaTeX builders (sections, figures, tables)  
+- the PDF exporter  
+- all templates (`base.tex`, `section.tex`, `figure.tex`, `table.tex`)  
+
+---
+
+## 🚀 Example Usage
+
+```python
+from report_engine.latex_builder import LatexReport
+from report_engine.exporters import Exporter
+
+# 1. Create a new report
+report = LatexReport(title="Sales Analysis Report")
+
+# 2. Add a section
+report.add_section(
     title="Executive Summary",
     content="This report provides an overview of sales performance."
 )
 
-### 3. Add a figure
-- report.add_figure(
+# 3. Add a figure
+report.add_figure(
     path="plots/sales_trend.png",
     caption="Sales Trend Over Time",
     width="0.9\\textwidth"
 )
 
-### 4. Add a LaTeX table
-- table_latex = r"""
-\\begin{tabular}{lrr}
-\\toprule
-Product & Units Sold & Revenue \\\\
-\\midrule
-A & 120 & 5400 \\\\
-B & 80 & 3200 \\\\
-C & 150 & 7500 \\\\
-\\bottomrule
-\\end{tabular}
+# 4. Add a LaTeX table
+table_latex = r"""
+\begin{tabular}{lrr}
+\toprule
+Product & Units Sold & Revenue \\
+\midrule
+A & 120 & 5400 \\
+B & 80 & 3200 \\
+C & 150 & 7500 \\
+\bottomrule
+\end{tabular}
 """
-- report.add_table(table_content=table_latex)
 
-### 5. Export to PDF
-- Exporter.to_pdf(report, output_path="output/report.pdf")
+report.add_table(table_content=table_latex)
 
-## Example 
+# 5. Export to PDF
+Exporter.to_pdf(report, output_path="output/report.pdf")
+```
 
-What this example does
-Creates a new LaTeX report with a title.
+---
 
-Adds a section with text.
+## 🧩 Template Structure
 
-Inserts an image with a template (figure.tex).
+The engine uses Jinja‑like LaTeX templates:
 
-Inserts a table with a template (table.tex).
+- `base.tex` — document wrapper  
+- `section.tex` — dynamic sections  
+- `figure.tex` — figures with captions  
+- `table.tex` — LaTeX tables  
 
-Compiles to PDF via the Exporter.
+---
 
-🔧 Templates Structure (for reference)
-The templates used by the engine:
+## 🎯 Features
 
- - base.tex — basic document wrapper
+- Clean, modular architecture  
+- Zero LaTeX boilerplate inside notebooks  
+- Reproducible PDF reports  
+- Plug‑and‑play templates  
+- Ideal for automated pipelines  
 
- - section.tex — template for sections
+---
 
- - figure.tex — template for figures
+# 🇬🇷 **Ελληνική Έκδοση**
 
- - table.tex — template for tables
+## 📌 Επισκόπηση  
+Το `latex-report-engine` είναι μια modular Python μηχανή που δημιουργεί καθαρές, αναπαραγώγιμες LaTeX αναφορές χρησιμοποιώντας templates για sections, εικόνες και πίνακες.  
+Σχεδιάστηκε για data analysts, data scientists και pipelines που χρειάζονται PDF reports χωρίς LaTeX spaghetti code.
 
- - All use Jinja‑like placeholders ({{ variable }}).
+---
 
+## 🖥️ Απαιτήσεις Συστήματος
 
+Για να γίνει compile σε PDF, το σύστημα πρέπει να έχει:
+
+### **Python**
+- Python **3.9+**
+
+### **LaTeX Distribution (απαραίτητο για PDF)**
+Πρέπει να υπάρχει εγκατεστημένο ένα πλήρες LaTeX distribution:
+
+- **TeX Live**  
+- **MiKTeX**  
+- **MacTeX**
+
+Το engine χρησιμοποιεί **XeLaTeX ή LuaLaTeX**, άρα πρέπει να υπάρχουν στο PATH:
+
+```bash
+xelatex --version
+lualatex --version
+```
+
+### **Απαραίτητα LaTeX Packages**
+Το σύστημα πρέπει να διαθέτει:
+
+- `graphicx`
+- `booktabs`
+- `float`
+- `geometry`
+
+(Συνήθως είναι ήδη εγκατεστημένα.)
+
+---
+
+## 📦 Εγκατάσταση (pip)
+
+Εγκατάσταση απευθείας από GitHub:
+
+```bash
+pip install git+https://github.com/messinisk/latex-report-engine.git
+```
+
+Αυτό εγκαθιστά:
+
+- το Python module `report_engine`  
+- τους builders για sections, figures, tables  
+- τον PDF exporter  
+- όλα τα templates (`base.tex`, `section.tex`, `figure.tex`, `table.tex`)  
+
+---
+
+## 🚀 Παράδειγμα Χρήσης
+
+```python
+from report_engine.latex_builder import LatexReport
+from report_engine.exporters import Exporter
+
+report = LatexReport(title="Sales Analysis Report")
+
+report.add_section(
+    title="Executive Summary",
+    content="This report provides an overview of sales performance."
+)
+
+report.add_figure(
+    path="plots/sales_trend.png",
+    caption="Sales Trend Over Time",
+    width="0.9\\textwidth"
+)
+
+table_latex = r"""
+\begin{tabular}{lrr}
+\toprule
+Product & Units Sold & Revenue \\
+\midrule
+A & 120 & 5400 \\
+B & 80 & 3200 \\
+C & 150 & 7500 \\
+\bottomrule
+\end{tabular}
+"""
+
+report.add_table(table_content=table_latex)
+
+Exporter.to_pdf(report, output_path="output/report.pdf")
+```
+
+---
+
+## 🧩 Δομή Templates
+
+Το πακέτο χρησιμοποιεί Jinja‑like templates:
+
+- `base.tex` — βασικό document wrapper  
+- `section.tex` — δυναμικά sections  
+- `figure.tex` — εικόνες με captions  
+- `table.tex` — LaTeX πίνακες  
+
+---
+
+## 🎯 Τι προσφέρει
+
+- Modular αρχιτεκτονική  
+- Καθαρός κώδικας χωρίς LaTeX μέσα σε notebooks  
+- Αναπαραγώγιμες αναφορές  
+- Plug‑and‑play templates  
+- Ιδανικό για αυτοματοποιημένα pipelines  
