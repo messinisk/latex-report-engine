@@ -1,15 +1,27 @@
-name: SLSA Provenance
+# Αρχείο: .github/workflows/slsa.yml
+
+name: SLSA Generator
 
 on:
-  push:
-    tags:
-      - "v*.*.*"
+  workflow_dispatch: # ή όποιο trigger θέλετε
 
 permissions:
+  actions: read
   id-token: write
-  contents: write
+  contents: read
 
 jobs:
   build:
+    # Εδώ μπαίνει το δικό σας build job που παράγει τα artifacts
+    runs-on: ubuntu-latest
+    outputs:
+      hashes: ${{ steps.share.outputs.hashes }}
+    steps:
+      - run: echo "build something"
+
+  provenance:
+    needs: [build]
+    # ΕΔΩ ΜΟΝΟ χρησιμοποιείται το όνομα με το @v1.9.0:
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
-    secrets: inherit
+    with:
+      base64-subjects: "${{ needs.build.outputs.hashes }}"
