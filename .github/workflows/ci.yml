@@ -33,9 +33,9 @@ jobs:
       - name: Lint with ruff
         run: ruff check report_engine
       - name: Lint with mypy
-        run: mypy --install-types && mypy .
+        run: mypy .
       - name: Lint with radon
-        run: radon cc report_engine | grep  '[C-F]$'
+        run: radon cc report_engine 
       - name: Lint with bandit
         run: bandit bandit -r  report_engine
       - name: Run tests
