@@ -10,21 +10,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      # --- Node setup (fixes deprecation warnings) ---
+      - name: Setup Node
+        uses: actions/setup-node@v4
         with:
-          python-version: "3.11"
+          node-version: "22"
 
+      # --- Checkout code ---
+      - name: Checkout
+        uses: actions/checkout@v4.2.2
+
+      # --- Python setup ---
+      - name: Set up Python
+        uses: actions/setup-python@v5.2.0
+        with:
+          python-version: "3.9"
+
+      # --- Install dependencies ---
       - name: Install dependencies
         run: |
-          pip install -r requirements.txt
+          pip install --upgrade pip
+          # pip install -r requirements.txt
           pip install ruff pytest
 
+      # --- Lint ---
       - name: Lint with ruff
         run: ruff check .
 
+      # --- Tests ---
       - name: Run tests
         run: pytest -q
