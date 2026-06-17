@@ -1,43 +1,15 @@
-name: SLSA Provenance Generator
+name: SLSA Provenance
 
 on:
-  # Εκτελείται αυτόματα κάθε φορά που δημιουργείτε ένα νέο Release
-  release:
-    types: [created]
-  # Σας επιτρέπει να το τρέξετε και χειροκίνητα για δοκιμή
-  workflow_dispatch:
+  push:
+    tags:
+      - "v*.*.*"
 
-# Καθολικές άδειες που διορθώνουν το σφάλμα "actions: none"
 permissions:
-  actions: read       # Επιτρέπει στο SLSA να διαβάσει τις πληροφορίες του run
-  id-token: write     # Απαραίτητο για την κρυπτογραφική υπογραφή (OIDC token)
-  contents: read      # Επιτρέπει την ανάγνωση του πηγαίου κώδικα
+  id-token: write
+  contents: write
 
 jobs:
-  # 1ο Βήμα: Το δικό σας build που παράγει το artifact και το hash του
   build:
-    runs-on: ubuntu-latest
-    outputs:
-      hashes: ${{ steps.share-hashes.outputs.hashes }}
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      # --- ΕΔΩ ΜΠΑΙΝΟΥΝ ΤΑ ΔΙΚΑ ΣΑΣ ΒΗΜΑΤΑ ΚΑΤΑΣΚΕΥΗΣ (π.χ. npm run build, go build κλπ) ---
-      - name: Build Artifact
-        run: |
-          echo "artifact-content" > my-artifact.txt
-
-      # Δημιουργία sha256 hash για το artifact (Απαραίτητο για το SLSA)
-      - name: Generate Hashes
-        id: share-hashes
-        run: |
-          echo "hashes=$(sha256sum my-artifact.txt | base64 -w0)" >> "$GITHUB_OUTPUT"
-
-  # 2ο Βήμα: Η κλήση του SLSA Generator (Γραμμή 13)
-  provenance:
-    needs: [build]
     uses: slsa-framework/slsa-github-generator/.github/workflows/generator_generic_slsa3.yml@v1.9.0
-    with:
-      base64-subjects: "${{ needs.build.outputs.hashes }}"
-      upload-assets: true # Ανεβάζει αυτόματα το provenance αρχείο στο Release σας
+    secrets: inherit
