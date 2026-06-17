@@ -1,13 +1,11 @@
 # exporters.py
-import sys
-import os
-
-ROOT = os.path.dirname(os.path.abspath(__file__))
-if ROOT not in sys.path:
-    sys.path.append(ROOT)
-    
-import pandas as pd
 from pathlib import Path
+import pandas as pd
+import sys
+
+ROOT = Path(__file__).resolve().parent
+sys.path.append(str(ROOT))
+
 
 class Exporter:
 

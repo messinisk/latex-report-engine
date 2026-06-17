@@ -1,12 +1,9 @@
 # latex_builder.py
 from pathlib import Path
-# Get the absolute path of the current file
+
 file_path = Path(__file__).resolve()
-print("File Path:", file_path)
-# Get the directory containing the current file
 directory_path = file_path.parent
 print("Directory Path:", directory_path)
-from pathlib import Path
 
 class LatexReport:
 

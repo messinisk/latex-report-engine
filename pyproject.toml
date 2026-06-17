@@ -9,4 +9,7 @@ description = "A modular LaTeX reporting engine"
 authors = [
     { name="Kostas" }
 ]
-dependencies = []
+dependencies = ["pandas"]
+
+[tool.ruff]
+ignore = ["E402"]
